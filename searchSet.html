@@ -6,33 +6,29 @@
 	<link rel="stylesheet" href="styles.css">
 	<script>
 			function searchSet() {
-			const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
-			const outputText = document.getElementById('outputText');
-			let search = document.getElementById('searchInput').value;
-			let allResults = "";
-			fetch(`https://api.pokemontcg.io/v2/cards?q=name:${search}`, {
-			headers: {
-			'X-Api-Key': apiKey
-			}
-			}).then(response => {
-			return response.json();
-			}).then(cards => {
-			cards.data.forEach(card => {
-			let marketPrice = card?.tcgplayer?.prices?.normal?.market ??
-			card?.tcgplayer?.prices?.holofoil?.market ??
-			card?.tcgplayer?.prices?.reverseHolofoil?.market ??
-			"Unknown";
-			allResults += `<div>
-			<div>${card.name}</div>
-			<div>$${marketPrice}</div>
-			<div>${card.set.name}</div>
-			<div>${card.set.id}</div>
-			<div>${card.id}</div>
-			<div><img src="${card.images.large}" width="50%"></div>
-			</div>`;
-			})
-			outputText.innerHTML = allResults.trim();
-			});
+				const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
+				const outputText = document.getElementById('outputText');
+				let search = document.getElementById('searchInput').value;
+				fetch(`https://api.pokemontcg.io/v2/sets?q=name:${search}`, {
+					headers: {
+						'X-Api-Key': apiKey
+					}
+				}).then(response => {
+					return response.json();
+				}).then(sets => {
+					let allResults = "";
+					sets.data.forEach(set => {
+						allResults += `<li>
+							<div>Name: ${set.name}</div>
+							<div>Printed Total: ${set.printedTotal}</div>
+							<div>Total: ${set.total}</div>
+							<div>ID: ${set.id}</div>
+							<div>Symbol: <img src="${set.symbol}" width="50%"></div>
+							<div>Logo: <img src="${set.logo}" width="50%"></div>
+						</li>`;
+					})
+					outputText.innerHTML = allResults;
+				});
 			};
 		</script>
 </head>
@@ -50,7 +46,7 @@
 	</header>
 	<main>
 		<section>
-			<input id="searchInput" type="text" placeholder="Enter search sets..." />
+			<input id="searchInput" type="text" placeholder="Enter set name..." />
 			<button onClick="searchSet()">Search Sets</button>
 		</section>
 		<section>
