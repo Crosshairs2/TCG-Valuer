@@ -1,0 +1,53 @@
+#outputText {
+	white-space: pre-wrap;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	display: flex;
+	flex-direction: column;
+	border: 3px solid;
+}
+#detailedOutputText {
+	list-style-type: none;
+	font-family: Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	border: 3px solid;
+	white-space: pre-wrap;
+}
+
+#outputText div {
+	display: flex;
+	flex-direction: row;
+	padding: 5px;
+	align-items: center
+}
+
+#outputText div div {
+	padding: 5px;
+	margin-right: 10px;
+	flex: 1
+}
+
+p {
+	overflow: visible;
+	word-break: break-word
+}
+
+body {
+	color: white;
+	background: repeating-linear-gradient(335deg, darkviolet 0, teal 100%);
+	font-family: "Comic Sans MS", "Comic Sans"
+}
+
+button {
+	border-radius: 20px;
+	outline: 5px solid #7900ff;
+	transition: outline .75s ease 0;
+	margin-right: 5px;
+	margin-left: 5px
+}
+
+button:hover {
+	outline: 8px solid #82f6ff
+}
+
+a {
+	color: yellow
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Search Cards </title>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<script>
+			function searchCard() {
+			const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
+			const outputText = document.getElementById('outputText');
+			let search = document.getElementById('searchInput').value;
+			let allResults = "";
+			fetch(`https://api.pokemontcg.io/v2/cards?q=name:${search}`, {
+			headers: {
+			'X-Api-Key': apiKey
+			}
+			}).then(response => {
+			return response.json();
+			}).then(cards => {
+			cards.data.forEach(card => {
+			let marketPrice = card?.tcgplayer?.prices?.normal?.market ??
+			card?.tcgplayer?.prices?.holofoil?.market ??
+			card?.tcgplayer?.prices?.reverseHolofoil?.market ??
+			"Unknown";
+			allResults += `<div>
+			<div>${card.name}</div>
+			<div>$${marketPrice}</div>
+			<div>${card.set.name}</div>
+			<div>${card.set.id}</div>
+			<div>${card.id}</div>
+			<div><img src="${card.images.large}" width="50%"></div>
+			</div>`;
+			})
+			outputText.innerHTML = allResults.trim();
+			});
+			};
+		</script>
+	</head>
+	<body>
+		<input id="searchInput" placeholder="Input search here...">
+		<button onClick="searchCard()">Search!</button>
+		<nav><a href="index.html">
+			<button>Back</button>
+			</a>
+		</nav>
+		<br>
+		<br>
+		<div class="flex-container" id="outputText"> </div>
+	</body>
+</html>

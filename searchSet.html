@@ -1,0 +1,46 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title> Search Sets </title>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+		<script>
+			function searchSet() {
+				const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
+				const outputText = document.getElementById('outputText');
+				let search = document.getElementById('searchInput').value;
+				fetch(`https://api.pokemontcg.io/v2/sets?q=name:${search}`, {
+					headers: {
+						'X-Api-Key': apiKey
+					}
+				}).then(response => {
+					return response.json();
+				}).then(sets => {
+					let allResults = "";
+					sets.data.forEach(set => {
+						allResults += `<div>
+							<div>Name: ${set.name}</div>
+							<div>Printed Total Cards: ${set.printedTotal}</div>
+							<div>Total Cards: ${set.total}</div>
+							<div>ID: ${set.id}</div>
+							<div>Symbol: <img src="${set.images.symbol}" width="50%"></div>
+							<div>Logo: <img src="${set.images.logo}" width="50%"></div>
+						</div>`;
+					})
+					outputText.innerHTML = allResults;
+				});
+			};
+		</script>
+	</head>
+	<body>
+		<input id="searchInput" placeholder="Set Name...">
+		<button onClick="searchSet()">Search Sets!</button>
+		<nav><a href="index.html">
+			<button>Back</button>
+			</a>
+		</nav>
+		<br>
+		<br>
+		<div class="flex-container" id="outputText"> </div>
+	</body>
+</html>
