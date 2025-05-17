@@ -1,79 +1,76 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="styles.css">
-<title>Extra Info</title>
-		<script>
-	function getDetailedCardData() {
-		const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
-		const cardImage = document.getElementById('cardImage');
-		const output = document.getElementById('detailedOutputText');
-		let setId = document.getElementById('set').value;
-		let cardSetId = document.getElementById('id').value;
-		let cardId = `${setId}-${cardSetId}`;
-		fetch(`https://api.pokemontcg.io/v2/cards/${cardId}`, {
-			headers: {
-				'X-Api-Key': apiKey
-			}
-		})
-		.then(response => {
-			return response.json();
-		})
-		.then(data => {
-			let cardName = data.data?.name;
-			let setName = data.data?.set?.name;
-			let cardImageSource;
-			if (cardId == "bwp-BW97") {
-				cardImageSource = "JC_Card.png";
-			} else {
-				cardImageSource = data.data?.images?.large;
-			}
-			let allResults = "";
-			if (data.data) {
-				let marketPrice = data.data?.tcgplayer?.prices?.normal?.market ??
-					data.data?.tcgplayer?.prices?.holofoil?.market ??
-					data.data?.tcgplayer?.prices?.reverseHolofoil?.market ??
-					"Unknown";
-				allResults = `<li>
-					<div>Name: ${data.data.name}</div>
-					<div>Price: $${marketPrice}</div>
-					<div>Set: ${data.data.set.name}</div>
-					<div>#/Printed: ${data.data.number}/${data.data.set.printedTotal}</div>
-					<div>#/Actual: ${data.data.number}/${data.data.set.total}</div>
-					<div>Series: ${data.data.set.series}</div>
-					<div>Rarity: ${data.data.rarity}</div>
-					<div>Pokedex #: ${data.data.nationalPokedexNumbers}</div>
-					<div>Artist: ${data.data.artist} </div>
-					<div>ID: ${data.data.id}</div>
-				</li>`;
-			}
-				if (!cardName) {
-					output.textContent = "Card not found!";
-					console.log("Card not found")
-				} else {
-					console.log("cardId = " + cardId);
-					console.log("cardName = " + cardName);
-					console.log("setName = " + setName);
-					console.log("cardImageSource = " + cardImageSource);
-					output.innerHTML = allResults;
-					cardImage.src = cardImageSource;
-				};
-		});
-	};
-</script>
-	</head>
+	<meta charset="utf-8">
+	<title>Extra Card Details - Pokémon Card Explorer</title>
+	<link rel="stylesheet" href="styles.css">
+</head>
 <body>
-	<input type="text" id="set" placeholder="Set ID (bwp)" />
-	<input type="text" id="id" placeholder="Card ID (BW97)" />
-	<button id="findButton" onclick="getDetailedCardData()">
-		Find!
-	</button>
-	<a href="index.html"><button>Back</button></a>
-	<br>
-	<img id="cardImage" alt="Your card appears here!" placeholder="Your card appears here!" width="100%">
-	<ul id="detailedOutputText">
-		<li></li>
-	</ul>
+	<header>
+		<h1>Extra Card Details</h1>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="search.html">Search Cards</a></li>
+				<li><a href="searchSet.html">Search Sets</a></li>
+				<li><a href="moreData.html">Extra Info</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<article>
+			<section>
+				<div>
+					<input type="text" id="set" placeholder="Set ID (e.g., bwp)" />
+					<input type="text" id="id" placeholder="Card ID (e.g., BW97)" />
+					<button id="findButton" onclick="getDetailedCardData()">Find</button>
+					<a href="index.html"><button>Back to Home</button></a>
+				</div>
+			</section>
+			<section>
+				<img id="cardImage" alt="Card image" width="100%" />
+				<ul id="detailedOutputText"></ul>
+			</section>
+		</article>
+	</main>
+	<footer>
+		<p>&copy; 2025 Pokémon Card Explorer</p>
+	</footer>
+	<script>
+		function getDetailedCardData() {
+			const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
+			const cardImage = document.getElementById('cardImage');
+			const output = document.getElementById('detailedOutputText');
+			const setId = document.getElementById('set').value;
+			const cardSetId = document.getElementById('id').value;
+			const cardId = `${setId}-${cardSetId}`;
+			fetch(`https://api.pokemontcg.io/v2/cards/${cardId}`, { headers: { 'X-Api-Key': apiKey } })
+				.then(response => response.json())
+				.then(data => {
+					if (!data.data) {
+						output.textContent = 'Card not found!';
+						return;
+					}
+					const card = data.data;
+					const marketPrice = card.tcgplayer?.prices?.normal?.market
+						?? card.tcgplayer?.prices?.holofoil?.market
+						?? card.tcgplayer?.prices?.reverseHolofoil?.market
+						?? 'Unknown';
+					cardImage.src = (cardId === 'bwp-BW97') ? 'JC_Card.png' : card.images.large;
+					output.innerHTML = `
+						<li><strong>Name:</strong> ${card.name}</li>
+						<li><strong>Price:</strong> $${marketPrice}</li>
+						<li><strong>Set:</strong> ${card.set.name}</li>
+						<li><strong>#/Printed:</strong> ${card.number}/${card.set.printedTotal}</li>
+						<li><strong>#/Actual:</strong> ${card.number}/${card.set.total}</li>
+						<li><strong>Series:</strong> ${card.set.series}</li>
+						<li><strong>Rarity:</strong> ${card.rarity}</li>
+						<li><strong>Pokedex #:</strong> ${card.nationalPokedexNumbers}</li>
+						<li><strong>Artist:</strong> ${card.artist}</li>
+						<li><strong>ID:</strong> ${card.id}</li>
+					`;
+				});
+		}
+	</script>
 </body>
 </html>
