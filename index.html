@@ -1,129 +1,49 @@
 <!doctype html>
 <html>
 	<head>
-		</head><div>
-			<meta charset="utf-8">
-			<title>
-				IIWITCG
-			</title>
-			<link rel="stylesheet" type="text/css" href="styles.css">
-		</div>
-		<div>
-			<script>
-				function getCardData() {
-				         const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
-				         const cardImage = document.getElementById('cardImage');
-				         const output = document.getElementById('outputText');
-				         let setId = document.getElementById('set').value;
-				         let cardSetId = document.getElementById('id').value;
-				         let cardId = `${setId}-${cardSetId}`;
-				         fetch(`https://api.pokemontcg.io/v2/cards/${cardId}`, {
-				             headers: {
-				                 'X-Api-Key': apiKey
-				             }
-				         })
-				         .then(response => {
-				             return response.json();
-				         })
-				         .then(data => {
-				             let cardName = data.data?.name;
-				             let setName = data.data?.set?.name;
-							 let cardImageSource;
-							 if (cardId == "bwp-BW97") {
-							 	cardImageSource = "JC_Card.png";
-							 } else {
-							 	cardImageSource = data.data?.images?.large;
-							 }
-				             let marketPrice = data.data?.tcgplayer?.prices?.normal?.market ??
-				                 data.data?.tcgplayer?.prices?.holofoil?.market ??
-				                 data.data?.tcgplayer?.prices?.reverseHolofoil?.market ??
-				                 " Unknown";
-					if (cardName == undefined) {
-						output.textContent = "Card not found!";
-						console.log("Card not found")
-					} else {
-						console.log("cardId = " + cardId);
-						console.log("cardName = " + cardName);
-						console.log("setName = " + setName);
-						console.log("marketPrice = " + marketPrice)
-						console.log("cardImageSource = " + cardImageSource);
-						output.textContent = cardName + "; " + setName + "; $" + marketPrice;
-						cardImage.src = cardImageSource;
-					};
-				});
-				};
-			</script>
-		</div>
-	
+		<meta charset="utf-8">
+		<title>
+			Smart TCGs
+		</title>
+		<link rel="stylesheet" type="text/css" href="styles.css">
+	</head>
 	<body>
 		<header>
-			<h1>
-				Is It Worth It TCG
-			</h1>
+			<h1>Smart TCGs</h1>
+				<nav>
+					<ul>
+						<li><a href="index.html">Home</a></li>
+						<li><a href="search.html">Search Cards</a></li>
+						<li><a href="searchSet.html">Search Sets</a></li>
+						<li><a href="moreData.html">Extra Info</a></li>
+					</ul>
+				</nav>
 		</header>
 		<main>
-			<section>
-				<article>
-					<p>
-						This website will show data for a given TCG product, so you can easily
-						see, "Should I open it, or should I keep it sealed". The data shown is
-						as follows:
-					</p>
-				</article>
-			</section>
-			<section>
+			<article>
+				<p>
+					This is a website that shows you all the info of a card, not just the prices. Ever wanted to know the game, generation, artist, and in the future, every attack, ability, description, height, weight, health, and evolution? Now you can!
+				</p>
+			</article>
 				<ul>
-					<li>
-						Minimum Value
-					</li>
-					<li>
-						Average Value
-					</li>
-					<li>
-						Maximum Value
-					</li>
-					<li>
-						Minimum Profit
-					</li>
-					<li>
-						Average Profit
-					</li>
-					<li>
-						Maximum Profit
-					</li>
-					<li>
-						Market Price
-					</li>
-					<li>
-						MSRP
-					</li>
+					<li>Name</li>
+					<li>Market Price ($)</li>
+					<li>Set Name</li>
+					<li>Listed ID (# out of #)</li>
+					<li>Actual ID (# out of # including secret rares)</li>
+					<li>Series (Game generation)</li>
+					<li>Rarity</li>
+					<li>National Pokedex #</li>
+					<li>Card Artist</li>
+					<li>Website ID (Set ID-Card ID, base1-4 means the set ID is base 1 and the card ID is 4)</li> <!-- Use example for easter egg 1/2! (Look closer at the edition on the left under the photo of the card; This Charizard isn't quite 1st edition...)-->
 				</ul>
-			</section>
-			<section>
-				<article>
-					<p>
-					<nav>The data is from the API provided by <a href="https://pokemontcg.io/">Pokemon TCG API</a>, which uses prices from <a href="https://tcgplayer.com/">TCGplayer</a>, the community standard for determining prices of TCG collectables.</nav>
-					</p>
-				</article>
-			</section>
+			<article>
+				<p>
+					The data is from the API provided by <a href="https://pokemontcg.io/">Pokemon TCG API</a>, which uses prices from <a href="https://tcgplayer.com/">TCGplayer</a>, the community standard/most accurate for determining prices of TCGs.
+				</p>
+			</article>
 		</main>
 		<footer>
-			<section>
-				<input type="text" id="set" placeholder="Set ID (bwp)" />
-				<input type="text" id="id" placeholder="Card ID (BW97)" />
-				<button id="findButton" onclick="getCardData()">
-				Find!
-				</button>
-				<a href="search.html"><button>Search Cards!</button></a>
-				<a href="searchSet.html"><button>Search Sets!</button></a>
-				<br>
-				<textarea id="outputText" placeholder="Output"></textarea>
-				<br>
-				<img id="cardImage" alt="Your card appears here!" placeholder="Your card appears here!"
-					width="100%">
-				<br>
-				<a href="moreData.html"><button>More Data...</button></a>
-			</section>
 		</footer>
 	</body>
 </html>

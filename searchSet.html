@@ -1,46 +1,63 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title> Search Sets </title>
-		<link rel="stylesheet" type="text/css" href="styles.css">
-		<script>
-			function searchSet() {
-				const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
-				const outputText = document.getElementById('outputText');
-				let search = document.getElementById('searchInput').value;
-				fetch(`https://api.pokemontcg.io/v2/sets?q=name:${search}`, {
-					headers: {
-						'X-Api-Key': apiKey
-					}
-				}).then(response => {
-					return response.json();
-				}).then(sets => {
-					let allResults = "";
-					sets.data.forEach(set => {
-						allResults += `<div>
-							<div>Name: ${set.name}</div>
-							<div>Printed Total Cards: ${set.printedTotal}</div>
-							<div>Total Cards: ${set.total}</div>
-							<div>ID: ${set.id}</div>
-							<div>Symbol: <img src="${set.images.symbol}" width="50%"></div>
-							<div>Logo: <img src="${set.images.logo}" width="50%"></div>
-						</div>`;
-					})
-					outputText.innerHTML = allResults;
-				});
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Search Sets</title>
+	<link rel="stylesheet" href="styles.css">
+	<script>
+			function searchCard() {
+			const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
+			const outputText = document.getElementById('outputText');
+			let search = document.getElementById('searchInput').value;
+			let allResults = "";
+			fetch(`https://api.pokemontcg.io/v2/cards?q=name:${search}`, {
+			headers: {
+			'X-Api-Key': apiKey
+			}
+			}).then(response => {
+			return response.json();
+			}).then(cards => {
+			cards.data.forEach(card => {
+			let marketPrice = card?.tcgplayer?.prices?.normal?.market ??
+			card?.tcgplayer?.prices?.holofoil?.market ??
+			card?.tcgplayer?.prices?.reverseHolofoil?.market ??
+			"Unknown";
+			allResults += `<div>
+			<div>${card.name}</div>
+			<div>$${marketPrice}</div>
+			<div>${card.set.name}</div>
+			<div>${card.set.id}</div>
+			<div>${card.id}</div>
+			<div><img src="${card.images.large}" width="50%"></div>
+			</div>`;
+			})
+			outputText.innerHTML = allResults.trim();
+			});
 			};
 		</script>
-	</head>
-	<body>
-		<input id="searchInput" placeholder="Set Name...">
-		<button onClick="searchSet()">Search Sets!</button>
-		<nav><a href="index.html">
-			<button>Back</button>
-			</a>
+</head>
+<body>
+	<header>
+		<h1>Search Sets</h1>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="search.html">Search Cards</a></li>
+				<li><a href="searchSet.html">Search Sets</a></li>
+				<li><a href="moreData.html">Extra Info</a></li>
+			</ul>
 		</nav>
-		<br>
-		<br>
-		<div class="flex-container" id="outputText"> </div>
-	</body>
+	</header>
+	<main>
+		<section>
+			<input id="searchInput" type="text" placeholder="Enter search sets..." />
+			<button onClick="searchSet()">Search Sets</button>
+		</section>
+		<section>
+			<div class="flex-container" id="outputText"></div>
+		</section>
+	</main>
+	<footer>
+	</footer>
+</body>
 </html>

@@ -1,10 +1,10 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<link rel="stylesheet" type="text/css" href="styles.css">
-<title>Extra Info</title>
-		<script>
+	<meta charset="utf-8">
+	<title>Extra Card Details</title>
+	<link rel="stylesheet" href="styles.css">
+	<script>
 	function getDetailedCardData() {
 		const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
 		const cardImage = document.getElementById('cardImage');
@@ -26,6 +26,8 @@
 			let cardImageSource;
 			if (cardId == "bwp-BW97") {
 				cardImageSource = "JC_Card.png";
+			} else if (cardId == "base1-4") {
+				cardImageSource = "Holofoil_Shadowless_PSA10_1st_Edition_Slattery.png";
 			} else {
 				cardImageSource = data.data?.images?.large;
 			}
@@ -62,18 +64,36 @@
 		});
 	};
 </script>
-	</head>
+</head>
 <body>
-	<input type="text" id="set" placeholder="Set ID (bwp)" />
-	<input type="text" id="id" placeholder="Card ID (BW97)" />
-	<button id="findButton" onclick="getDetailedCardData()">
-		Find!
-	</button>
-	<a href="index.html"><button>Back</button></a>
-	<br>
-	<img id="cardImage" alt="Your card appears here!" placeholder="Your card appears here!" width="100%">
-	<ul id="detailedOutputText">
-		<li></li>
-	</ul>
+	<header>
+		<h1>Extra Card Details</h1>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="search.html">Search Cards</a></li>
+				<li><a href="searchSet.html">Search Sets</a></li>
+				<li><a href="moreData.html">Extra Info</a></li>
+			</ul>
+		</nav>
+	</header>
+	<main>
+		<article>
+			<section>
+				<div>
+					<input type="text" id="set" placeholder="Set ID (e.g., bwp)" />
+					<input type="text" id="id" placeholder="Card ID (e.g., BW97)" /><!-- Use examples for easter egg 2/2! (Look closer at the art of the card; a flashbang awaits you...)-->
+					<button id="findButton" onclick="getDetailedCardData()">Find</button>
+					<a href="index.html"><button>Back to Home</button></a>
+				</div>
+			</section>
+			<section>
+				<img id="cardImage" alt="Card image" width="100%" />
+				<ul id="detailedOutputText"></ul>
+			</section>
+		</article>
+	</main>
+	<footer>
+	</footer>
 </body>
 </html>

@@ -1,10 +1,10 @@
 <!doctype html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<title> Search Cards </title>
-		<link rel="stylesheet" type="text/css" href="styles.css">
-		<script>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Search Cards</title>
+	<link rel="stylesheet" href="styles.css">
+	<script>
 			function searchCard() {
 			const apiKey = 'b05aeb68-e6b4-4d3e-ab96-485c97244660';
 			const outputText = document.getElementById('outputText');
@@ -35,16 +35,29 @@
 			});
 			};
 		</script>
-	</head>
-	<body>
-		<input id="searchInput" placeholder="Input search here...">
-		<button onClick="searchCard()">Search!</button>
-		<nav><a href="index.html">
-			<button>Back</button>
-			</a>
+</head>
+<body>
+	<header>
+		<h1>Search Cards</h1>
+		<nav>
+			<ul>
+				<li><a href="index.html">Home</a></li>
+				<li><a href="search.html">Search Cards</a></li>
+				<li><a href="searchSet.html">Search Sets</a></li>
+				<li><a href="moreData.html">Extra Info</a></li>
+			</ul>
 		</nav>
-		<br>
-		<br>
-		<div class="flex-container" id="outputText"> </div>
-	</body>
+	</header>
+	<main>
+		<section>
+			<input id="searchInput" type="text" placeholder="Enter search cards..." />
+			<button onClick="searchCard()">Search</button>
+		</section>
+		<section>
+			<div class="flex-container" id="outputText"></div>
+		</section>
+	</main>
+	<footer>
+	</footer>
+</body>
 </html>
